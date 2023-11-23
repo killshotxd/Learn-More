@@ -21,15 +21,15 @@ const Header = () => {
 
   return (
     <>
-      <div className="px-16 py-8 border-b-2 sticky flex justify-between items-center">
+      <div className="px-16 py-8 border-b-2 top-0 bg-white sticky flex justify-between items-center z-50">
         <div>
           <h2 className="font-semibold text-xl">
             LearnMore <span>©</span>
           </h2>
         </div>
-        <div className="flex items-center gap-16">
-          <div>
-            <ul className="flex items-center gap-8 ">
+        <div className="flex items-center gap-28">
+          <div className="hidden md:flex">
+            <ul className="flex items-center font-medium cursor-pointer gap-12 ">
               <li>Home</li>
               <li>Courses</li>
               <li>About</li>
@@ -53,7 +53,19 @@ const Header = () => {
                     className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
                   >
                     <li>
-                      <a>Item 1</a>
+                      <a>Profile</a>
+                    </li>
+                    <li className="md:hidden">
+                      <a>Home</a>
+                    </li>
+                    <li className="md:hidden">
+                      <a>Courses</a>
+                    </li>
+                    <li className="md:hidden">
+                      <a>About</a>
+                    </li>
+                    <li className="md:hidden">
+                      <a>FAQ</a>
                     </li>
                     <li onClick={() => logOut()}>
                       <a> Log Out</a>

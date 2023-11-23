@@ -6,3 +6,15 @@
 * {
   font-family: "Poppins", sans-serif !important;
 }
+
+.heroSearchBtn {
+  background: #00b5ff;
+  width: 2.8rem;
+  height: 2.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  right: 1px;
+  top: 1px;
+}
