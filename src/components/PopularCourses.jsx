@@ -5,7 +5,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 const PopularCourses = () => {
   return (
     <>
-      <section className="min-h-[70vh]">
+      <section className="py-8">
         <div>
           <h2 className="text-center font-bold text-2xl">
             Unlock Career Opportunities with Our Courses

@@ -3,7 +3,7 @@ import imgCover from "../assets/reviews.webp";
 const Testimonial = () => {
   return (
     <>
-      <section className="min-h-[70vh]">
+      <section className="py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 px-16 space-y-4 md:space-y-0">
           <div>
             <img src={imgCover} alt="rev" />
