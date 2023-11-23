@@ -1,3 +1,4 @@
+import Faq from "../components/Faq";
 import HeroSection from "../components/HeroSection";
 import PopularCourses from "../components/PopularCourses";
 import Testimonial from "../components/Testimonial";
@@ -8,6 +9,7 @@ const Home = () => {
       <HeroSection />
       <PopularCourses />
       <Testimonial />
+      <Faq />
     </>
   );
 };
