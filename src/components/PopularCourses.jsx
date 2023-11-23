@@ -1,4 +1,5 @@
 import courseImg1 from "../assets/ckpkwza6sh91277gavrq.avif";
+import courseImg2 from "../assets/mern.webp";
 import { FaStar, FaRegStar } from "react-icons/fa";
 
 const PopularCourses = () => {
@@ -15,7 +16,7 @@ const PopularCourses = () => {
           {/* CARD */}
           <div className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 ml-4">
             <div>
-              <img className="rounded-xl" src={courseImg1} alt="course" />
+              <img className="rounded-xl" src={courseImg2} alt="course" />
             </div>
             <div className="space-y-2">
               <p className="font-semibold">
@@ -69,7 +70,7 @@ const PopularCourses = () => {
           {/* CARD */}
           <div className="max-w-sm p-2 border-2 rounded-md space-y-4">
             <div>
-              <img className="rounded-xl" src={courseImg1} alt="course" />
+              <img className="rounded-xl" src={courseImg2} alt="course" />
             </div>
             <div className="space-y-2">
               <p className="font-semibold">
