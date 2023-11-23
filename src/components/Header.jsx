@@ -1,8 +1,11 @@
 import { FaUserCircle } from "react-icons/fa";
 import { UserAuth } from "../context/AuthContext";
+import { useLocation, useNavigate } from "react-router-dom";
 const Header = () => {
   const { currentUser, logout, signInGoogle } = UserAuth();
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log(location);
   console.log(currentUser);
   const signIn = async () => {
     try {
@@ -31,10 +34,44 @@ const Header = () => {
         <div className="flex items-center gap-28">
           <div className="hidden md:flex">
             <ul className="flex items-center font-medium cursor-pointer gap-12 ">
-              <li>Home</li>
-              <li>Courses</li>
-              <li>About</li>
-              <li>FAQ</li>
+              <li
+                onClick={() => navigate("/")}
+                className={
+                  location.pathname == "/" ? "font-semibold text-blue-400" : ""
+                }
+              >
+                Home
+              </li>
+              <li
+                onClick={() => navigate("/courses")}
+                className={
+                  location.pathname == "/courses"
+                    ? "font-semibold text-blue-400"
+                    : ""
+                }
+              >
+                Courses
+              </li>
+              <li
+                onClick={() => navigate("/about")}
+                className={
+                  location.pathname == "/about"
+                    ? "font-semibold text-blue-400"
+                    : ""
+                }
+              >
+                About
+              </li>
+              <li
+                onClick={() => navigate("/faq")}
+                className={
+                  location.pathname == "/faq"
+                    ? "font-semibold text-blue-400"
+                    : ""
+                }
+              >
+                FAQ
+              </li>
             </ul>
           </div>
           <div>
