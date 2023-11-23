@@ -52,7 +52,7 @@ const HeroSection = () => {
                   </div>
                 </div>
               </div>
-              <p className="hover:text-purple-400 cursor-pointer font-semibold ">
+              <p className="hover:text-blue-400 cursor-pointer font-semibold ">
                 Join over 500,000 satisfied learners! Explore our courses now.
               </p>
             </div>
