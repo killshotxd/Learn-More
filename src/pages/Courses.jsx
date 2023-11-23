@@ -5,7 +5,7 @@ const Courses = () => {
   return (
     <>
       <div className="px-16 py-8">
-        <div className="px-4">
+        <div className="md:px-4">
           <div className="flex flex-wrap items-center gap-4 ">
             <p className="badge badge-error badge-lg">All</p>
             <p className="badge badge-primary badge-lg">Web Development</p>
@@ -26,9 +26,9 @@ const Courses = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 content-center">
           {/* CARD */}
-          <div className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 ml-4">
+          <div className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 md:ml-4">
             <div>
               <img className="rounded-xl" src={courseImg2} alt="course" />
             </div>
@@ -55,7 +55,7 @@ const Courses = () => {
           </div>
           {/* CARD */}
           {/* CARD */}
-          <div className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 ml-4">
+          <div className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 md:ml-4">
             <div>
               <img className="rounded-xl" src={courseImg2} alt="course" />
             </div>
@@ -82,7 +82,7 @@ const Courses = () => {
           </div>
           {/* CARD */}
           {/* CARD */}
-          <div className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 ml-4">
+          <div className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 md:ml-4">
             <div>
               <img className="rounded-xl" src={courseImg2} alt="course" />
             </div>
@@ -109,7 +109,7 @@ const Courses = () => {
           </div>
           {/* CARD */}
           {/* CARD */}
-          <div className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 ml-4">
+          <div className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 md:ml-4">
             <div>
               <img className="rounded-xl" src={courseImg2} alt="course" />
             </div>
