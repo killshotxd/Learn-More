@@ -6,7 +6,7 @@ const PopularCourses = () => {
     <>
       <section className="min-h-[70vh]">
         <div>
-          <h2 className="text-center font-semibold text-2xl">
+          <h2 className="text-center font-bold text-2xl">
             Unlock Career Opportunities with Our Courses
           </h2>
         </div>

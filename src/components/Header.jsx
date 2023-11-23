@@ -2,6 +2,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { UserAuth } from "../context/AuthContext";
 const Header = () => {
   const { currentUser, logout, signInGoogle } = UserAuth();
+
   console.log(currentUser);
   const signIn = async () => {
     try {
