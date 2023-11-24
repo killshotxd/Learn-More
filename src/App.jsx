@@ -9,6 +9,7 @@ import Blog from "./pages/Blog";
 import Courses from "./pages/Courses";
 import FaqPage from "./pages/FaqPage";
 import Admin from "./pages/Admin/Admin";
+import CourseDetails from "./components/CourseDetails";
 
 const App = () => {
   const { currentUser } = UserAuth();
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/course-details" element={<CourseDetails />} />
       </Routes>
     </>
   );
