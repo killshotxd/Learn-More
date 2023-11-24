@@ -103,11 +103,14 @@ const CourseDetails = () => {
             </ul>
           </div>
         </div>
-        <div className="md:fixed md:top-30 mt-4 md:right-16 max-h-screen">
-          <div>
+        <div className="md:fixed md:top-30 mt-4 md:right-16 max-h-screen px-6">
+          <div className="md:w-[440px] md:h-[280px]">
             <ReactPlayer
               url="https://www.youtube.com/watch?v=LXb3EKWsInQ"
               controls="true"
+              className="react-player"
+              width="100%"
+              height="100%"
             />
           </div>
         </div>
