@@ -45,7 +45,8 @@ const Header = () => {
               <li
                 onClick={() => navigate("/courses")}
                 className={
-                  location.pathname == "/courses"
+                  location.pathname == "/courses" ||
+                  location.pathname == "/course-details"
                     ? "font-semibold text-blue-400"
                     : ""
                 }
