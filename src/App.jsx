@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
 import Courses from "./pages/Courses";
 import FaqPage from "./pages/FaqPage";
+import Admin from "./pages/Admin/Admin";
 
 const App = () => {
   const { currentUser } = UserAuth();
@@ -15,7 +16,7 @@ const App = () => {
   console.log(currentUser);
   return (
     <>
-      {location.pathname == "/login" ? (
+      {location.pathname == "/login" || location.pathname == "/admin" ? (
         <> </>
       ) : (
         <>
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/courses" element={<Courses />} />
         <Route path="/about" element={<About />} />
         <Route path="/faq" element={<FaqPage />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </>
   );
