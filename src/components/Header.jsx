@@ -94,16 +94,22 @@ const Header = () => {
                     <li>
                       <a>Profile</a>
                     </li>
-                    <li className="md:hidden">
+                    <li onClick={() => navigate("/")} className="md:hidden">
                       <a>Home</a>
                     </li>
-                    <li className="md:hidden">
+                    <li
+                      onClick={() => navigate("/courses")}
+                      className="md:hidden"
+                    >
                       <a>Courses</a>
                     </li>
-                    <li className="md:hidden">
+                    <li
+                      onClick={() => navigate("/about")}
+                      className="md:hidden"
+                    >
                       <a>About</a>
                     </li>
-                    <li className="md:hidden">
+                    <li onClick={() => navigate("/faq")} className="md:hidden">
                       <a>FAQ</a>
                     </li>
                     <li onClick={() => logOut()}>

@@ -309,7 +309,9 @@ const Admin = () => {
             </div>
           </div>
 
-          <div className="px-6 pt-6 2xl:container">{renderComponent()}</div>
+          <div className="px-6 pt-6 2xl:container bg-white">
+            {renderComponent()}
+          </div>
         </div>
       </section>
     </>

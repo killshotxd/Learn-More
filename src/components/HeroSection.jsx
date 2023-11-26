@@ -10,7 +10,7 @@ const HeroSection = () => {
             className="md:max-w-xl sm:max-w-sm max-w-xs rounded-lg shadow-2xl"
           />
           <div>
-            <h1 className="text-5xl font-semibold italic">
+            <h1 className="text-5xl font-semibold italic text-center md:text-left">
               Enhance Your Online Learning Experience Instantly
             </h1>
             <p className="py-6">
