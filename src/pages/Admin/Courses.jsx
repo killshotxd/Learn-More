@@ -1,11 +1,50 @@
 import { useState } from "react";
 import { BsDash, BsPlus } from "react-icons/bs";
 import toast, { Toaster } from "react-hot-toast";
+import { MultiSelect } from "react-multi-select-component";
 const Courses = () => {
   const [cname, setCname] = useState("");
+  const [cPrice, setCPrice] = useState("");
+  const [cDiscount, setCDiscount] = useState("");
   const [cProvide, setCourseProvide] = useState([""]);
   const [prerequisites, setPrerequisites] = useState([""]);
   const [courseDetails, setCourseDetails] = useState([""]);
+  const [selected, setSelected] = useState([]);
+
+  const options = [
+    { value: "NodeJs", label: "NodeJs" },
+    { value: "Angular", label: "Angular" },
+    { value: "Java", label: "Java" },
+    { value: "JavaScript", label: "JavaScript" },
+    { value: "Python", label: "Python" },
+    { value: "AI/ML", label: "AI/ML" },
+    { value: "React", label: "React" },
+    { value: "Web Development", label: "Web Development" },
+    { value: "C/C++", label: "C/C++" },
+    { value: "VueJs", label: "VueJs" },
+    { value: "Web Development", label: "Web Development" },
+    { value: "Mobile App Development", label: "Mobile App Development" },
+    { value: "Data Science", label: "Data Science" },
+    { value: "Machine Learning", label: "Machine Learning" },
+    { value: "Artificial Intelligence", label: "Artificial Intelligence" },
+    { value: "Cloud Computing", label: "Cloud Computing" },
+    { value: "Cybersecurity", label: "Cybersecurity" },
+    { value: "Game Development", label: "Game Development" },
+    { value: "Graphic Design", label: "Graphic Design" },
+    { value: "UI/UX Design", label: "UI/UX Design" },
+    { value: "Digital Marketing", label: "Digital Marketing" },
+    { value: "Finance & Accounting", label: "Finance & Accounting" },
+    { value: "Business Development", label: "Business Development" },
+    { value: "Language Learning", label: "Language Learning" },
+    { value: "Photography", label: "Photography" },
+    { value: "Music & Audio", label: "Music & Audio" },
+    { value: "Health & Fitness", label: "Health & Fitness" },
+    { value: "Personal Development", label: "Personal Development" },
+    { value: "Cooking & Culinary Arts", label: "Cooking & Culinary Arts" },
+    { value: "Science", label: "Science" },
+    { value: "Humanities", label: "Humanities" },
+  ];
+
   const addCProvide = () => {
     setCourseProvide([...cProvide, ""]); // Add a new empty field
   };
@@ -52,6 +91,26 @@ const Courses = () => {
 
   //
 
+  const addCDetails = () => {
+    setCourseDetails([...courseDetails, ""]); // Add a new empty field
+  };
+
+  const removeCDetails = (indexToRemove) => {
+    if (courseDetails.length == 1) {
+      toast.error("One Point is needed !", { id: "PROVIDED" });
+      return;
+    }
+    const updatedFields = courseDetails.filter(
+      (_, index) => index !== indexToRemove
+    );
+    setCourseDetails(updatedFields); // Remove the field at the specified index
+  };
+
+  const handleInputChangeCD = (index, value) => {
+    const updatedFields = [...courseDetails];
+    updatedFields[index] = value;
+    setCourseDetails(updatedFields); // Update the value of a specific field
+  };
   return (
     <>
       <Toaster />
@@ -90,6 +149,7 @@ const Courses = () => {
                 <input
                   type="text"
                   value={cProvide[index]}
+                  placeholder="Full Stack Web Development"
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   className="w-full pl-3 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
@@ -120,6 +180,7 @@ const Courses = () => {
                 <input
                   type="text"
                   value={prerequisites[index]}
+                  placeholder="Javascript"
                   onChange={(e) => handleInputChangePre(index, e.target.value)}
                   className="w-full pl-3 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
@@ -145,9 +206,78 @@ const Courses = () => {
           </div>
         </div>
 
-        <hr className="mt-6" />
+        <div className="grid md:grid-cols-3  sm:grid-cols-2 gap-8">
+          <div className="mt-6">
+            <label htmlFor="name" className="font-medium">
+              Course Details?
+            </label>
 
-        <div className="grid md:grid-cols-3  sm:grid-cols-2 gap-8"></div>
+            {courseDetails.map((field, index) => (
+              <div key={index} className="flex items-center space-x-2 ">
+                <input
+                  type="text"
+                  value={courseDetails[index]}
+                  onChange={(e) => handleInputChangeCD(index, e.target.value)}
+                  className="w-full pl-3 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                />
+                {courseDetails.length > 1 && (
+                  <button type="button" onClick={() => removeCDetails(index)}>
+                    <BsDash />
+                  </button>
+                )}
+              </div>
+            ))}
+            <div className="flex justify-end mt-2">
+              <button
+                type="button"
+                className="btn btn-neutral w-36 h-3"
+                onClick={addCDetails}
+              >
+                <BsPlus /> Add Field
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <label htmlFor="cPrice" className="font-medium">
+              Course Price
+            </label>
+            <input
+              type="text"
+              value={cPrice}
+              onChange={(e) => setCPrice(e.target.value)}
+              id="cPrice"
+              placeholder="Course Price"
+              className="w-full pl-3 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+            />
+          </div>
+
+          <div className="mt-6">
+            <label htmlFor="cDiscount" className="font-medium">
+              Course Discount Price
+            </label>
+            <input
+              type="text"
+              value={cDiscount}
+              onChange={(e) => setCDiscount(e.target.value)}
+              id="cDiscount"
+              placeholder="Course Discount Price"
+              className="w-full pl-3 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+            />
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3  sm:grid-cols-2 gap-8">
+          <div>
+            <label className="font-medium">Category : </label>
+            <MultiSelect
+              options={options}
+              value={selected}
+              onChange={setSelected}
+              labelledBy="Select"
+            />
+          </div>
+        </div>
       </div>
     </>
   );
