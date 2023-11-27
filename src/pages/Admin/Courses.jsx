@@ -1,8 +1,12 @@
-import { useState } from "react";
-import { BsDash, BsPlus } from "react-icons/bs";
+import { useRef, useState } from "react";
+import { BsDash, BsFileImage, BsPlus } from "react-icons/bs";
 import toast, { Toaster } from "react-hot-toast";
 import { MultiSelect } from "react-multi-select-component";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../Firebase";
+import { UserAuth } from "../../context/AuthContext";
 const Courses = () => {
+  const { currentUser } = UserAuth();
   const [cname, setCname] = useState("");
   const [cPrice, setCPrice] = useState("");
   const [cDiscount, setCDiscount] = useState("");
@@ -10,6 +14,14 @@ const Courses = () => {
   const [prerequisites, setPrerequisites] = useState([""]);
   const [courseDetails, setCourseDetails] = useState([""]);
   const [selected, setSelected] = useState([]);
+  const imagePicker = useRef();
+  const [imageUrl, setImageUrl] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [profileImageUploadStarted, setProfileImageUploadStarted] =
+    useState(false);
+  const handleImageClick = () => {
+    imagePicker.current.click();
+  };
 
   const options = [
     { value: "NodeJs", label: "NodeJs" },
@@ -111,9 +123,75 @@ const Courses = () => {
     updatedFields[index] = value;
     setCourseDetails(updatedFields); // Update the value of a specific field
   };
+
+  //
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+
+    if (!file) return;
+    setProfileImageUploadStarted(true);
+    uploadImage(
+      file,
+      (progress) => {
+        setProgress(Math.round(progress));
+      },
+      (url) => {
+        setImageUrl(url);
+
+        uploadImage(url);
+
+        setProfileImageUploadStarted(false);
+        setProgress(0);
+      },
+      (err) => {
+        console.log("Error->", err);
+        setProfileImageUploadStarted(false);
+      }
+    );
+  };
+
+  // UPLOAD TO FIREBASE STORAGE
+  const uploadImage = (file, progressCallback, urlCallback, errorCallback) => {
+    if (!file) {
+      errorCallback("File not found");
+      return;
+    }
+    const fileType = file.type;
+    const storageRef = ref(
+      storage,
+      `${currentUser.email}/${fileType}/${file.name}`
+    );
+    const task = uploadBytesResumable(storageRef, file);
+    task.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progressCallback(progress);
+      },
+      (error) => {
+        errorCallback(error.message);
+      },
+      () => {
+        getDownloadURL(storageRef).then((url) => {
+          urlCallback(url);
+          toast.success("Image Uploaded Successfully!");
+        });
+      }
+    );
+  };
   return (
     <>
       <Toaster />
+      <input
+        type="file"
+        hidden
+        accept="image/*"
+        ref={imagePicker}
+        onChange={handleImageChange}
+      />
+
       {/* <div className="  flex justify-between items-center">
         <input
           type="text"
@@ -268,7 +346,7 @@ const Courses = () => {
         </div>
 
         <div className="grid md:grid-cols-3  sm:grid-cols-2 gap-8">
-          <div>
+          <div className="mt-6">
             <label className="font-medium">Category : </label>
             <MultiSelect
               options={options}
@@ -276,6 +354,20 @@ const Courses = () => {
               onChange={setSelected}
               labelledBy="Select"
             />
+          </div>
+          {/* IMG DIV */}
+          <div className="flex justify-center  items-center gap-2 mt-6">
+            <div
+              onClick={handleImageClick}
+              className=" cursor-pointer btn-ghost w-full p-6 rounded flex justify-center items-center text-xs gap-1"
+            >
+              <BsFileImage size={30} /> Please upload a Cover
+            </div>
+          </div>
+          <div className="w-full customImgDiv flex justify-center m-auto items-center px-2 max-w-xs">
+            <figure>
+              <input className="w-1/2" type="image" src={imageUrl} alt="" />
+            </figure>
           </div>
         </div>
       </div>
