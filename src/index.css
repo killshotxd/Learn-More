@@ -28,3 +28,13 @@
   top: 0;
   left: 0;
 }
+@media screen and (max-width: 640px) {
+  .rsw-toolbar {
+    max-width: 23rem;
+  }
+}
+@media screen and (max-width: 405px) {
+  .rsw-toolbar {
+    max-width: 20rem;
+  }
+}

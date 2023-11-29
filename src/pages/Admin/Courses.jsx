@@ -810,13 +810,12 @@ const Courses = () => {
       <div className="mt-12">
         <h2 className="text-xl font-semibold">Uploaded Courses</h2>
 
-        <div>
+        <div className="overflow-x-auto">
           <table className="w-full table-auto text-sm text-left">
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr>
                 <th className="py-3 px-6">Course No</th>
                 <th className="py-3 px-6">Name</th>
-
                 <th className="py-3 px-6">Price</th>
                 <th className="py-3 px-6">Category</th>
                 <th className="py-3 px-6">Action</th>
@@ -832,9 +831,9 @@ const Courses = () => {
                       className="w-10 h-10 rounded-full"
                     />
                     <div>
-                      <span className="block text-gray-700 text-sm font-medium">
+                      <p className="block whitespace-pre-wrap text-gray-700 text-sm font-medium">
                         {item.name}
-                      </span>
+                      </p>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -842,31 +841,27 @@ const Courses = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item?.category.map((res) => (
-                      <>
-                        <div className="flex flex-wrap items-center">
-                          <span
-                            className="badge badge-xs badge-neutral"
-                            key={res.label}
-                          >
-                            {res.value}
-                          </span>
-                        </div>
-                      </>
+                      <div
+                        className="flex flex-wrap items-center"
+                        key={res.label}
+                      >
+                        <span className="badge badge-xs badge-neutral">
+                          {res.value}
+                        </span>
+                      </div>
                     ))}
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
                       <button
                         onClick={() => deleteCourse(item?.did)}
                         className="btn btn-xs hover:bg-red-400 hover:text-white"
                       >
                         <BiTrash /> delete
                       </button>
-
                       <button
                         onClick={() => handleEditCourse(item)}
-                        className="btn btn-xs  hover:bg-info hover:text-white"
+                        className="btn btn-xs hover:bg-info hover:text-white"
                       >
                         <BiEdit /> edit
                       </button>
