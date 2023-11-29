@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../Firebase";
 import { useNavigate } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const Courses = () => {
   const navigate = useNavigate();
   const [courseList, setCourses] = useState();
@@ -74,45 +76,56 @@ const Courses = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 content-center">
-          {courseList?.map((res) => (
+          {courseList ? (
             <>
-              {" "}
-              <div
-                onClick={() =>
-                  navigate(`/course-details/${res.did}`, { state: res })
-                }
-                className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 md:ml-4"
-              >
-                <div>
-                  <img className="rounded-xl" src={res.imageUrl} alt="course" />
-                </div>
-                <div className="space-y-2">
-                  <p className="font-semibold">{res.name}</p>
-
-                  <div className="flex items-center justify-between">
-                    <span className="flex items-center gap-2">
-                      <FaStar className=" text-orange-300" />
-                      <FaStar className=" text-orange-300" />
-                      <FaStar className=" text-orange-300" />
-                      <FaStar className=" text-orange-300" />
-                      <FaRegStar />
-                    </span>
-                    <span>3 Student</span>
+              {courseList.map((res) => (
+                <div
+                  key={res?.did}
+                  onClick={() =>
+                    navigate(`/course-details/${res.did}`, { state: res })
+                  }
+                  className="max-w-sm p-2 border-2 rounded-md space-y-4 mt-4 md:ml-4"
+                >
+                  <div>
+                    <img
+                      className="rounded-xl"
+                      src={res.imageUrl}
+                      alt="course"
+                    />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span>
-                      {new Intl.NumberFormat("en-IN", {
-                        style: "currency",
-                        currency: "INR",
-                      }).format(parseFloat(res.price))}
-                    </span>
+                  <div className="space-y-2">
+                    <p className="font-semibold">{res.name}</p>
 
-                    <span>3 Lectures</span>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-2">
+                        <FaStar className=" text-orange-300" />
+                        <FaStar className=" text-orange-300" />
+                        <FaStar className=" text-orange-300" />
+                        <FaStar className=" text-orange-300" />
+                        <FaRegStar />
+                      </span>
+                      <span>3 Student</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                        }).format(parseFloat(res.price))}
+                      </span>
+                      <span>3 Lectures</span>
+                    </div>
                   </div>
                 </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <div className="mt-6 ml-6 ">
+                <Skeleton count={10} />
               </div>
             </>
-          ))}
+          )}
         </div>
       </div>
     </>

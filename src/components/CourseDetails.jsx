@@ -2,6 +2,7 @@ import { FaRegStar, FaStar } from "react-icons/fa";
 import { FaCheckCircle } from "react-icons/fa";
 import ReactPlayer from "react-player";
 import { useLocation } from "react-router-dom";
+import RenderHTML from "../components/RenderHTML";
 const CourseDetails = () => {
   const location = useLocation();
   const state = location.state;
@@ -82,17 +83,7 @@ const CourseDetails = () => {
           <div>
             <h2 className="text-xl font-semibold mt-12">Course Details</h2>
 
-            <ul className="space-y-4 mt-4">
-              {state.courseDetails.map((res, i) => (
-                <>
-                  <li key={i + 1}>
-                    {" "}
-                    <p className="flex items-center gap-2">✅ {res}.</p>
-                  </li>
-                </>
-              ))}
-              <li> </li>
-            </ul>
+            <RenderHTML htmlContent={state.courseDetails} />
           </div>
         </div>
         <div className="md:fixed md:top-30 mt-4 md:right-16 max-h-screen px-6">

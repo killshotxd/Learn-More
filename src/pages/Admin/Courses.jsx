@@ -6,7 +6,15 @@ import { MultiSelect } from "react-multi-select-component";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../Firebase";
 import { UserAuth } from "../../context/AuthContext";
-import { addDoc, collection, doc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import Editor from "react-simple-wysiwyg";
 const Courses = () => {
   const { currentUser } = UserAuth();
   const [cname, setCname] = useState("");
@@ -32,6 +40,12 @@ const Courses = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(null);
   const itemsPerPage = 7;
+
+  //
+  const [editCourse, setEditCourse] = useState();
+  const [isEditCourse, setIsEditCourse] = useState(false);
+
+  //
   const options = [
     { value: "NodeJs", label: "NodeJs" },
     { value: "Angular", label: "Angular" },
@@ -65,6 +79,12 @@ const Courses = () => {
     { value: "Science", label: "Science" },
     { value: "Humanities", label: "Humanities" },
   ];
+  const [html, setHtml] = useState(
+    "<b>I created this course to be what I wanted when I was learning Node.</b>"
+  );
+  function onChangeEdit(e) {
+    setHtml(e.target.value);
+  }
 
   const addCProvide = () => {
     setCourseProvide([...cProvide, ""]); // Add a new empty field
@@ -330,7 +350,7 @@ const Courses = () => {
         discount: cDiscount,
         courseProvides: cProvide,
         prerequisites: prerequisites,
-        courseDetails: courseDetails,
+        courseDetails: html,
         category: selected,
         sourceCode: fileUrl,
         imageUrl: imageUrl,
@@ -341,11 +361,64 @@ const Courses = () => {
       };
       await addDoc(courseCollectionRef, courseDetailsFor);
       toast.success("Course Added successfully!");
+      setCDiscount("");
+      setCPrice("");
+      setCname("");
+      setCourseDetails([""]);
+      setCourseProvide([""]);
+      setFileUrl("");
+      setHtml(
+        "<b>I created this course to be what I wanted when I was learning Node.</b>"
+      );
+      setImageUrl("");
+      setPrerequisites([""]);
+      setSelected([]);
+      setVideoUrl("");
+      fetchCourses();
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleUpdateCourse = async () => {
+    try {
+      const courseCollectionRef = doc(db, "courses", editCourse.did);
+      let courseDetailsFor = {
+        name: cname,
+        price: cPrice,
+        discount: cDiscount,
+        courseProvides: cProvide,
+        prerequisites: prerequisites,
+        courseDetails: html,
+        category: selected,
+        sourceCode: fileUrl,
+        imageUrl: imageUrl,
+        VideoUrl: videoUrl,
+        timestamp: new Date().toLocaleDateString(),
+        uploadedByName: currentUser.displayName,
+        uploadedByEmail: currentUser.email,
+      };
+      await updateDoc(courseCollectionRef, courseDetailsFor);
+      toast.success("Course Updated successfully!");
+      setIsEditCourse(false);
+      setCDiscount("");
+      setCPrice("");
+      setCname("");
+      setCourseDetails([""]);
+      setCourseProvide([""]);
+      setFileUrl("");
+      setHtml(
+        "<b>I created this course to be what I wanted when I was learning Node.</b>"
+      );
+      setImageUrl("");
+      setPrerequisites([""]);
+      setSelected([]);
+      setVideoUrl("");
+      fetchCourses();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //
 
   const fetchCourses = async () => {
@@ -390,6 +463,39 @@ const Courses = () => {
   useEffect(() => {
     fetchCourses();
   }, [currentPage]);
+
+  //
+
+  const deleteCourse = async (did) => {
+    try {
+      const docRef = doc(db, "courses", did);
+      await deleteDoc(docRef);
+      fetchCourses();
+      toast.success("Course Deleted Successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEditCourse = async (item) => {
+    setIsEditCourse(true);
+    setEditCourse(item);
+
+    console.log(item);
+
+    setTimeout(() => {
+      setCname(item.name);
+      setCPrice(item.price);
+      setCDiscount(item.discount);
+      setCourseProvide(item.courseProvides);
+      setPrerequisites(item.prerequisites);
+      setHtml(item.courseDetails);
+      setSelected(item.category);
+      setFileUrl(item.sourceCode);
+      setImageUrl(item.imageUrl);
+      setVideoUrl(item.VideoUrl);
+    }, 200);
+  };
   return (
     <>
       <Toaster />
@@ -444,7 +550,7 @@ const Courses = () => {
               What You&apos;ll Learn From This Course?
             </label>
 
-            {cProvide.map((field, index) => (
+            {cProvide?.map((field, index) => (
               <div key={index} className="flex items-center space-x-2 ">
                 <input
                   type="text"
@@ -453,7 +559,7 @@ const Courses = () => {
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   className="w-full pl-3 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
-                {cProvide.length > 1 && (
+                {cProvide?.length > 1 && (
                   <button type="button" onClick={() => removeCProvide(index)}>
                     <BsDash />
                   </button>
@@ -475,7 +581,7 @@ const Courses = () => {
               What Are The Prerequisites For This Course?
             </label>
 
-            {prerequisites.map((field, index) => (
+            {prerequisites?.map((field, index) => (
               <div key={index} className="flex items-center space-x-2 ">
                 <input
                   type="text"
@@ -484,7 +590,7 @@ const Courses = () => {
                   onChange={(e) => handleInputChangePre(index, e.target.value)}
                   className="w-full pl-3 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
-                {prerequisites.length > 1 && (
+                {prerequisites && prerequisites?.length > 1 && (
                   <button
                     type="button"
                     onClick={() => removePrerequisites(index)}
@@ -511,8 +617,8 @@ const Courses = () => {
             <label htmlFor="name" className="font-medium">
               Course Details?
             </label>
-
-            {courseDetails.map((field, index) => (
+            <Editor value={html} onChange={onChangeEdit} />
+            {/* {courseDetails.map((field, index) => (
               <div key={index} className="flex items-center space-x-2 ">
                 <input
                   type="text"
@@ -527,8 +633,8 @@ const Courses = () => {
                   </button>
                 )}
               </div>
-            ))}
-            <div className="flex justify-end mt-2">
+            ))} */}
+            {/* <div className="flex justify-end mt-2">
               <button
                 type="button"
                 className="btn btn-neutral w-36 h-3"
@@ -536,7 +642,7 @@ const Courses = () => {
               >
                 <BsPlus /> Add Field
               </button>
-            </div>
+            </div> */}
           </div>
 
           <div className="mt-6">
@@ -683,12 +789,21 @@ const Courses = () => {
         </div>
 
         <div className="flex justify-center">
-          <button
-            onClick={handleUploadCourse}
-            className="btn bg-blue-500 text-white"
-          >
-            Upload Course
-          </button>
+          {isEditCourse ? (
+            <button
+              onClick={handleUpdateCourse}
+              className="btn btn-neutral text-white"
+            >
+              Update Course
+            </button>
+          ) : (
+            <button
+              onClick={handleUploadCourse}
+              className="btn bg-blue-500 text-white"
+            >
+              Upload Course
+            </button>
+          )}
         </div>
       </div>
 
@@ -742,11 +857,17 @@ const Courses = () => {
 
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-3">
-                      <button className="btn btn-xs hover:bg-red-400 hover:text-white">
+                      <button
+                        onClick={() => deleteCourse(item?.did)}
+                        className="btn btn-xs hover:bg-red-400 hover:text-white"
+                      >
                         <BiTrash /> delete
                       </button>
 
-                      <button className="btn btn-xs  hover:bg-info hover:text-white">
+                      <button
+                        onClick={() => handleEditCourse(item)}
+                        className="btn btn-xs  hover:bg-info hover:text-white"
+                      >
                         <BiEdit /> edit
                       </button>
                     </div>
