@@ -1,4 +1,5 @@
 import { MdOutlineSearch } from "react-icons/md";
+import pp from "../assets/tim-mossholder-WE_Kv_ZB1l0-unsplash (1)-min.jpg";
 
 const HeroSection = () => {
   return (
@@ -6,7 +7,7 @@ const HeroSection = () => {
       <div className="hero min-h-[85vh] bg-base-100">
         <div className="hero-content flex-col lg:flex-row gap-24">
           <img
-            src="https://images.unsplash.com/photo-1599687351724-dfa3c4ff81b1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={pp}
             className="md:max-w-xl sm:max-w-sm max-w-xs rounded-lg shadow-2xl"
           />
           <div>
