@@ -3,13 +3,47 @@ import { FaCheckCircle } from "react-icons/fa";
 import ReactPlayer from "react-player";
 import { useLocation } from "react-router-dom";
 import RenderHTML from "../components/RenderHTML";
+import { useEffect } from "react";
 const CourseDetails = () => {
+  // useEffect(() => {
+  //   const preventRightClick = (e) => {
+  //     e.preventDefault();
+  //   };
+
+  //   const preventCopyPasteInspect = () => {
+  //     document.addEventListener("contextmenu", preventRightClick);
+  //     document.addEventListener("copy", preventRightClick);
+  //     document.addEventListener("cut", preventRightClick);
+  //     document.addEventListener("paste", preventRightClick);
+  //     document.addEventListener("keydown", (e) => {
+  //       if (
+  //         e.ctrlKey &&
+  //         (e.keyCode === 85 || e.keyCode === 67 || e.keyCode === 73)
+  //       ) {
+  //         e.preventDefault();
+  //       }
+  //     });
+  //   };
+
+  //   const removePreventCopyPasteInspect = () => {
+  //     document.removeEventListener("contextmenu", preventRightClick);
+  //     document.removeEventListener("copy", preventRightClick);
+  //     document.removeEventListener("cut", preventRightClick);
+  //     document.removeEventListener("paste", preventRightClick);
+  //   };
+
+  //   preventCopyPasteInspect();
+
+  //   return () => {
+  //     removePreventCopyPasteInspect();
+  //   };
+  // }, []);
   const location = useLocation();
   const state = location.state;
   console.log(state);
   return (
     <>
-      <div className="grid md:grid-cols-[65%_35%]">
+      <div className="grid cdGridRevFlex md:grid-cols-[65%_35%]">
         <div className="md:px-16 px-4 py-8 space-y-4">
           <h1 className="text-2xl font-semibold">{state?.name}</h1>
 
@@ -87,13 +121,18 @@ const CourseDetails = () => {
           </div>
         </div>
         <div className="md:fixed md:top-30 mt-4 md:right-16 max-h-screen px-6">
-          <div className="md:w-[440px] md:h-[280px]">
+          <div className="">
             <ReactPlayer
               url={state?.VideoUrl}
               controls={true}
               className="react-player"
-              width="100%"
-              height="100%"
+              config={{
+                file: {
+                  attributes: {
+                    controlsList: "nodownload", // Disable download option
+                  },
+                },
+              }}
             />
           </div>
         </div>

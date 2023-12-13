@@ -24,9 +24,18 @@
 }
 
 .react-player {
-  position: absolute;
-  top: 0;
-  left: 0;
+  width: 440px !important;
+  height: auto !important;
+}
+@media screen and (max-width: 1392px) {
+  .react-player {
+    width: 100% !important;
+    height: auto !important;
+  }
+  .cdGridRevFlex {
+    display: flex;
+    flex-direction: column-reverse !important;
+  }
 }
 @media screen and (max-width: 640px) {
   .rsw-toolbar {
