@@ -5,39 +5,39 @@ import { useLocation } from "react-router-dom";
 import RenderHTML from "../components/RenderHTML";
 import { useEffect } from "react";
 const CourseDetails = () => {
-  // useEffect(() => {
-  //   const preventRightClick = (e) => {
-  //     e.preventDefault();
-  //   };
+  useEffect(() => {
+    const preventRightClick = (e) => {
+      e.preventDefault();
+    };
 
-  //   const preventCopyPasteInspect = () => {
-  //     document.addEventListener("contextmenu", preventRightClick);
-  //     document.addEventListener("copy", preventRightClick);
-  //     document.addEventListener("cut", preventRightClick);
-  //     document.addEventListener("paste", preventRightClick);
-  //     document.addEventListener("keydown", (e) => {
-  //       if (
-  //         e.ctrlKey &&
-  //         (e.keyCode === 85 || e.keyCode === 67 || e.keyCode === 73)
-  //       ) {
-  //         e.preventDefault();
-  //       }
-  //     });
-  //   };
+    const preventCopyPasteInspect = () => {
+      document.addEventListener("contextmenu", preventRightClick);
+      document.addEventListener("copy", preventRightClick);
+      document.addEventListener("cut", preventRightClick);
+      document.addEventListener("paste", preventRightClick);
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.ctrlKey &&
+          (e.keyCode === 85 || e.keyCode === 67 || e.keyCode === 73)
+        ) {
+          e.preventDefault();
+        }
+      });
+    };
 
-  //   const removePreventCopyPasteInspect = () => {
-  //     document.removeEventListener("contextmenu", preventRightClick);
-  //     document.removeEventListener("copy", preventRightClick);
-  //     document.removeEventListener("cut", preventRightClick);
-  //     document.removeEventListener("paste", preventRightClick);
-  //   };
+    const removePreventCopyPasteInspect = () => {
+      document.removeEventListener("contextmenu", preventRightClick);
+      document.removeEventListener("copy", preventRightClick);
+      document.removeEventListener("cut", preventRightClick);
+      document.removeEventListener("paste", preventRightClick);
+    };
 
-  //   preventCopyPasteInspect();
+    preventCopyPasteInspect();
 
-  //   return () => {
-  //     removePreventCopyPasteInspect();
-  //   };
-  // }, []);
+    return () => {
+      removePreventCopyPasteInspect();
+    };
+  }, []);
   const location = useLocation();
   const state = location.state;
   console.log(state);
