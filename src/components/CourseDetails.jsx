@@ -10,6 +10,11 @@ const CourseDetails = () => {
       e.preventDefault();
     };
 
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
     const preventCopyPasteInspect = () => {
       document.addEventListener("contextmenu", preventRightClick);
       document.addEventListener("copy", preventRightClick);

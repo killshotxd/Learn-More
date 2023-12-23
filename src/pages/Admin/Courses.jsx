@@ -54,7 +54,7 @@ const Courses = () => {
     { value: "Python", label: "Python" },
     { value: "AI/ML", label: "AI/ML" },
     { value: "React", label: "React" },
-    { value: "Web Development", label: "Web Development" },
+    { value: "DSA", label: "DSA" },
     { value: "C/C++", label: "C/C++" },
     { value: "VueJs", label: "VueJs" },
     { value: "Web Development", label: "Web Development" },

@@ -10,7 +10,9 @@ import "react-loading-skeleton/dist/skeleton.css";
 const Courses = () => {
   const navigate = useNavigate();
   const [courseList, setCourses] = useState();
+  const [filteredCourses, setFilteredCourses] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [pages, setPages] = useState(null);
   const itemsPerPage = 7;
   const fetchCourses = async () => {
@@ -42,6 +44,7 @@ const Courses = () => {
       console.log(courseList);
       setPages(generatedPages);
       setCourses(courseList);
+      setFilteredCourses(courseList);
       return courseList;
     } catch (error) {
       console.error("Error fetching documents:", error);
@@ -51,16 +54,61 @@ const Courses = () => {
   useEffect(() => {
     fetchCourses();
   }, [currentPage]);
+
+  const allCategories = courseList?.reduce((categories, course) => {
+    course.category.forEach((category) => {
+      if (!categories.includes(category.value)) {
+        categories.push(category.value);
+      }
+    });
+    return categories;
+  }, []);
+
+  const handleCategoryFilter = (selectedCategory) => {
+    // Filter courses based on selectedCategory
+    const filteredCourses = selectedCategory
+      ? courseList?.filter((course) =>
+          course?.category?.some((cat) => cat.value === selectedCategory)
+        )
+      : courseList;
+
+    // Update state with filtered courses
+    setFilteredCourses(filteredCourses);
+  };
   return (
     <>
       <div className="px-16 py-8">
         <div className="md:px-4">
-          <div className="flex flex-wrap items-center gap-4 ">
-            <p className="badge badge-error badge-lg">All</p>
-            <p className="badge badge-primary badge-lg">Web Development</p>
-            <p className="badge badge-primary badge-lg">Python</p>
-            <p className="badge badge-primary badge-lg">C/C++</p>
-            <p className="badge badge-primary badge-lg">DSA</p>
+          <div className="flex flex-wrap items-center gap-4">
+            <p
+              className={`badge ${
+                selectedCategory == "All"
+                  ? "badge-error text-white"
+                  : "badge-primary"
+              } badge-lg cursor-pointer`}
+              onClick={() => {
+                handleCategoryFilter(null);
+                setSelectedCategory("All");
+              }}
+            >
+              All
+            </p>
+            {allCategories?.map((category, index) => (
+              <p
+                key={index}
+                className={`badge ${
+                  selectedCategory === category
+                    ? "badge-error text-white"
+                    : "badge-primary"
+                } badge-lg cursor-pointer`}
+                onClick={() => {
+                  handleCategoryFilter(category);
+                  setSelectedCategory(category);
+                }}
+              >
+                {category}
+              </p>
+            ))}
           </div>
 
           <div className="relative mt-4 ">
@@ -78,7 +126,7 @@ const Courses = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 content-center">
           {courseList ? (
             <>
-              {courseList.map((res) => (
+              {filteredCourses?.map((res) => (
                 <div
                   key={res?.did}
                   onClick={() =>
