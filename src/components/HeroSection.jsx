@@ -1,7 +1,10 @@
 import { MdOutlineSearch } from "react-icons/md";
 import pp from "../assets/tim-mossholder-WE_Kv_ZB1l0-unsplash (1)-min.jpg";
-
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const [search, setSearch] = useState("");
   return (
     <>
       <div className="hero min-h-[85vh] bg-base-100">
@@ -24,9 +27,14 @@ const HeroSection = () => {
                 type="text"
                 placeholder="Search Courses.."
                 className="input input-bordered input-info w-full focus:outline-none"
+                onChange={(e) => setSearch(e.target.value)}
               />
               <span className=" cursor-pointer absolute heroSearchBtn">
-                <MdOutlineSearch className="text-white" size={24} />
+                <MdOutlineSearch
+                  className="text-white"
+                  size={24}
+                  onClick={() => navigate("/courses", { state: { search } })}
+                />
               </span>
             </div>
 

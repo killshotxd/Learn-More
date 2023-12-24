@@ -4,7 +4,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../Firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 const Courses = () => {
@@ -14,7 +14,14 @@ const Courses = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [pages, setPages] = useState(null);
+
   const itemsPerPage = 7;
+  const location = useLocation();
+  const state = location.state;
+  console.log(state);
+  const [searchQuery, setSearchQuery] = useState(
+    state?.search ? state?.search : ""
+  );
   const fetchCourses = async () => {
     try {
       // Get a reference to the "Admin" collection
@@ -75,6 +82,17 @@ const Courses = () => {
     // Update state with filtered courses
     setFilteredCourses(filteredCourses);
   };
+
+  const filteredCoursesSearch = filteredCourses?.filter((course) => {
+    const lowerCaseQuery = searchQuery?.toLowerCase();
+    const isInCourseName = course.name?.toLowerCase()?.includes(lowerCaseQuery);
+    const isInCategory = course.category.some((cat) =>
+      cat.value?.toLowerCase()?.includes(lowerCaseQuery)
+    );
+
+    return isInCourseName || isInCategory;
+  });
+
   return (
     <>
       <div className="px-16 py-8">
@@ -88,6 +106,7 @@ const Courses = () => {
               } badge-lg cursor-pointer`}
               onClick={() => {
                 handleCategoryFilter(null);
+                setSearchQuery("");
                 setSelectedCategory("All");
               }}
             >
@@ -103,6 +122,7 @@ const Courses = () => {
                 } badge-lg cursor-pointer`}
                 onClick={() => {
                   handleCategoryFilter(category);
+                  setSearchQuery("");
                   setSelectedCategory(category);
                 }}
               >
@@ -116,6 +136,8 @@ const Courses = () => {
               type="text"
               placeholder="Search Courses.."
               className="input input-bordered input-info w-full focus:outline-none"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <span className=" cursor-pointer absolute heroSearchBtn">
               <MdOutlineSearch className="text-white" size={24} />
@@ -126,7 +148,7 @@ const Courses = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 content-center">
           {courseList ? (
             <>
-              {filteredCourses?.map((res) => (
+              {filteredCoursesSearch?.map((res) => (
                 <div
                   key={res?.did}
                   onClick={() =>
